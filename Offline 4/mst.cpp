@@ -207,8 +207,8 @@ public:
             for(auto i:adjList[u])
             {
                 int v = i.getv();
-                int w = abs(i.getweight());
-                if(w < key[v])
+                int w = i.getweight();
+                if(visited[v]==WHITE && w < key[v])
                 {
                     key[v] = w;
                     q.push(make_pair(key[v], v));
@@ -227,17 +227,8 @@ public:
         mst_prim(source);
         for(int i=0; i<V; i++)
         {
-            if(parent[i] != -1)
-            {
-                for(auto e : adjList[parent[i]])
-                {
-                    if(e.getv()==i)
-                    {
-                        mst_w += e.getweight();
-                        break;
-                    }
-                }
-            }
+            mst_w += key[i];
+            //cout<<"w "<<key[i]<<endl;
         }
         cout<<"MST weight = "<<mst_w<<endl;
         outfile<<"MST weight = "<<mst_w<<endl;
