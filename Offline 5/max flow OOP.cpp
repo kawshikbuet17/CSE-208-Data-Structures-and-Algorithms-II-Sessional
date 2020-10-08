@@ -37,36 +37,6 @@ public:
     }
 };
 
-/*
-class IncomingFlow
-{
-    int vertex;
-    int flow;
-public:
-    IncomingFlow(int vertex, int flow)
-    {
-        this->vertex = vertex;
-        this->flow = flow;
-    }
-
-    void setv(int vertex)
-    {
-        this->vertex = vertex;
-    }
-    void setflow(int flow)
-    {
-        this->flow = flow;
-    }
-    int getv()
-    {
-        return vertex;
-    }
-    int getflow()
-    {
-        return flow;
-    }
-};
-*/
 
 class Graph
 {
@@ -95,9 +65,25 @@ public:
     void addEdge(int u, int v, int w)
     {
         //cout<<"added edge = "<<u<<" "<<v<<" "<<w<<endl;
-        adjList[u].push_back(Edge(v,w));
-        adjList[v].push_back(Edge(u,0));
-        residue[u][v] =  w;
+        residue[u][v] +=  w;
+        int flag=0;
+        for(auto i: adjList[u])
+        {
+            if(i.getv()==v)
+            {
+                flag=1;
+            }
+        }
+        if(flag==1)
+        {
+            reweightEdge(u, v, residue[u][v]);
+        }
+        if(flag==0)
+        {
+            adjList[u].push_back(Edge(v,w));
+            adjList[v].push_back(Edge(u,0));
+        }
+
     }
 
 
@@ -262,7 +248,7 @@ int main()
 {
     Graph g;
     ifstream infile;
-    infile.open("inpifto2.txt");
+    infile.open("inpifto.txt");
 
     if(!infile.is_open())
     {
