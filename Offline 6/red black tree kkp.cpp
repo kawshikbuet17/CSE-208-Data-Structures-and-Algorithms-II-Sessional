@@ -476,31 +476,33 @@ int main()
 {
     Red_Black_Tree rbt;
 
-    cout<<rbt.isNode(rbt.root, 1)<<endl;
-    rbt.insert(1);
-    rbt.RB_preorder_print(rbt.root);cout<<endl;
-    rbt.insert(3);
-    rbt.RB_preorder_print(rbt.root);cout<<endl;
-    rbt.insert(2);
-    rbt.RB_preorder_print(rbt.root);cout<<endl;
-    rbt.insert(5);
-    rbt.RB_preorder_print(rbt.root);cout<<endl;
-    rbt.insert(7);
-    rbt.RB_preorder_print(rbt.root);cout<<endl;
-    rbt.insert(4);
-    rbt.RB_preorder_print(rbt.root);cout<<endl;
-    rbt.insert(6);
-    rbt.RB_preorder_print(rbt.root);cout<<endl;
-    rbt.insert(8);
-    rbt.RB_preorder_print(rbt.root);cout<<endl;
-    rbt.insert(10);
-    rbt.RB_preorder_print(rbt.root);cout<<endl;
-    rbt.RB_delete_by_value(rbt.root, 7);
-    rbt.RB_preorder_print(rbt.root);cout<<endl;
-    rbt.RB_delete_by_value(rbt.root, 1);
-    rbt.RB_preorder_print(rbt.root);cout<<endl;
-    rbt.RB_delete_by_value(rbt.root, 8);
-    rbt.RB_preorder_print(rbt.root);cout<<endl;
-    cout<<rbt.isNode(rbt.root, 2)<<endl;
-    //rbt.RB_preorder_print(rbt.root);cout<<endl;
+    cout<<"------ Red Black Tree ------"<<endl;
+    cout<<"To insert    : type I <space> value"<<endl;
+    cout<<"To delete    : type D <space> value"<<endl;
+    cout<<"To find      : type F <space> value"<<endl;
+    cout<<endl;
+
+    while(1)
+    {
+        char c;
+        int inp;
+        cin>>c>>inp;
+        if(c=='I' || c=='i')
+        {
+            rbt.insert(inp);
+            rbt.RB_preorder_print(rbt.root);cout<<endl;
+        }
+        else if(c=='D' || c=='d')
+        {
+            rbt.RB_delete_by_value(rbt.root, inp);
+            rbt.RB_preorder_print(rbt.root);cout<<endl;
+        }
+        else
+        {
+            if(rbt.isNode(rbt.root, inp))
+                cout<<"true"<<endl;
+            else
+                cout<<"false"<<endl;
+        }
+    }
 }
