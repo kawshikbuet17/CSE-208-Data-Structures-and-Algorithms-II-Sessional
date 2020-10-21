@@ -479,10 +479,10 @@ int main()
         exit(1);
     }
 
-
+    freopen ("outfile.txt","w",stdout); ///comment this line to see output in console
     char c;
-    int inp
-    ;
+    int inp;
+
     while(!infile.eof())
     {
 
@@ -506,5 +506,6 @@ int main()
         }
     }
 
+    fclose (stdout);
     return 0;
 }
