@@ -484,12 +484,8 @@ int main()
     char c;
     int inp;
 
-    while(!infile.eof())
+    while(infile>>c>>inp)
     {
-
-        infile>>c>>inp;
-        if(!infile.good())
-            break;
         if(c=='I' || c=='i')
         {
             rbt.insert(inp);
