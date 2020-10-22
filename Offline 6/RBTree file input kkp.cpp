@@ -468,6 +468,7 @@ int main()
     Red_Black_Tree rbt;
 
     cout<<"------ Red Black Tree ------"<<endl;
+    cout<<"----- Go to outfile.txt-----"<<endl;
     cout<<endl;
 
     ifstream infile;
@@ -487,6 +488,8 @@ int main()
     {
 
         infile>>c>>inp;
+        if(!infile.good())
+            break;
         if(c=='I' || c=='i')
         {
             rbt.insert(inp);
