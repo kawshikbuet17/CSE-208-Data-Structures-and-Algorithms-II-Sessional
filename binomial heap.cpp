@@ -42,7 +42,8 @@ public:
         Node* node = NIL;
         return node;
     }
-    int binomialHeapMinimum() /// O(log n)
+
+    int binomialHeapMinimum()
     {
         Node* y = NIL;
         Node* x = H;
@@ -63,27 +64,37 @@ public:
     Node* binomialHeapFind(Node* from, int value)
     {
         Node* x = from;
-        bool found = false;
+        Node* p = NIL;
 
         if(x->key == value)
         {
-            found = true;
-            return x;
+            p = x;
+            return p;
         }
 
-        if(x->child != NIL and found == false)
+        if(x->child != NIL and p==NIL)
         {
-            binomialHeapFind(x->child, value);
+            p = binomialHeapFind(x->child, value);
         }
 
-        if(x->sibling != NIL and found == false)
+        if(x->sibling != NIL and p==NIL)
         {
-            binomialHeapFind(x->sibling, value);
+            p = binomialHeapFind(x->sibling, value);
         }
+        return p;
+    }
+
+    bool binomialHeapIsNode(int value)
+    {
+        Node* x = binomialHeapFind(H, value);
+        if(x != NIL)
+            return true;
+        else
+            return false;
     }
 
 
-    binomialLink(Node* y, Node* z)
+    void binomialLink(Node* y, Node* z)
     {
         y->parent = z;
         y->sibling = z->child;
@@ -110,7 +121,6 @@ public:
         ///traverse from first to last sibling
         while(next_x != NIL)
         {
-            ///if next degree is higher OR
             if(x->degree != next_x->degree ||(next_x->sibling != NIL and next_x->sibling->degree == x->degree))
             {
                 prev_x = x;
@@ -136,6 +146,7 @@ public:
                         prev_x->sibling = next_x;
                     }
                     binomialLink(x, next_x);
+                    x = next_x;
                 }
             }
             next_x = x->sibling;
@@ -175,7 +186,7 @@ public:
 
 
         ///attach one after another order ASC
-        while(y != NIL and z!= NIL)
+        while(y != NIL and z != NIL)
         {
             if(y->degree < z->degree)
                 y = y->sibling;
@@ -196,7 +207,7 @@ public:
     }
 
 
-    void binomialHeapInsert(int value) ///done
+    void binomialHeapInsert(int value)
     {
         Node* x = new Node;
         x->key = value;
@@ -208,11 +219,9 @@ public:
         x->degree = 0;
         H_prime = x;
         H = binomialHeapUnion(H, H_prime);
-        //cout<<"inserted "<<H_prime->key<<endl;
-        //Display(H);
     }
 
-    binomialHeapDecreaseKey(Node* x, int k) ///done
+    void binomialHeapDecreaseKey(Node* x, int k)
     {
         if(k > x->key)
             cout<<"new key is greater than current key"<<endl;
@@ -225,17 +234,26 @@ public:
         {
             swap(y->key, z->key);
             y = z;
-            z = y->parent; ///z = z->parent diye dekha hobe noile
+            z = y->parent;
         }
     }
 
-    binomialHeapDelete(Node* x) ///done
+    void binomialHeapDelete(Node* x)
     {
         binomialHeapDecreaseKey(x, -INF);
         binomialHeapExtractMin(H);
     }
 
-    binomialHeapExtractMin(Node* H1)
+    void binomialHeapDeleteValue(int value)
+    {
+        Node* x = binomialHeapFind(H, value);
+        if(x != NIL)
+            binomialHeapDelete(x);
+        else
+            cout<<"No node of value "<<value<<endl;
+    }
+
+    void binomialHeapExtractMin(Node* H1)
     {
         Hreverse = NIL;
         Node* t = NIL;
@@ -280,7 +298,7 @@ public:
         //return x;
     }
 
-    binomialHeapRevertList(Node* y) ///done
+    void binomialHeapRevertList(Node* y)
     {
         if(y->sibling == NIL)
             Hreverse = y;
@@ -294,14 +312,14 @@ public:
 
 
     void Display(Node *h)
-{
-    while (h)
     {
-        cout << h->key << " ";
-        Display(h->child);
-        h = h->sibling;
+        while (h)
+        {
+            cout << h->key << " ";
+            Display(h->child);
+            h = h->sibling;
+        }
     }
-}
 };
 
 int main()
@@ -312,11 +330,16 @@ int main()
     bh.binomialHeapInsert(30);
     bh.binomialHeapInsert(40);
     bh.binomialHeapInsert(50);
-    bh.Display(bh.getRoot());
+    bh.Display(bh.getRoot());cout<<endl;
     bh.binomialHeapExtractMin(bh.getRoot());
-    cout<<endl;
+    bh.Display(bh.getRoot());cout<<endl;
+
+    bh.binomialHeapDelete(bh.getRoot());
     bh.Display(bh.getRoot());
-    bh.binomialHeapExtractMin(bh.getRoot());
     cout<<endl;
+    bh.binomialHeapDelete(bh.getRoot());
+    bh.Display(bh.getRoot());
+    cout<<endl;
+    bh.binomialHeapDelete(bh.getRoot());
     bh.Display(bh.getRoot());
 }
