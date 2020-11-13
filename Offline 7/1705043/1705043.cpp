@@ -373,4 +373,6 @@ int main()
             bh.binomialHeapUnion(bh.getRoot(), bh2->getRoot());
         }
     }
+    fclose(stdin);
+    fclose(stdout);
 }
